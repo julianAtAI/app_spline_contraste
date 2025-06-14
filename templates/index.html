@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mejora de Imagen con Splines</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background-color: #ddd;
+      margin-top: 10px;
+      display: none;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: #4caf50;
+      transition: width 2s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sube una imagen para mejorar el contraste</h1>
+    <form method="post" enctype="multipart/form-data" onsubmit="showProgress()">
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">Procesar</button>
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </form>
+
+    {% if plot_file %}
+    <script>
+      alert("¡Terminado!");
+    </script>
+    <div class="results">
+      <p><strong>Entropía original:</strong> {{ ent_before }}</p>
+      <p><strong>Entropía mejorada:</strong> {{ ent_after }}</p>
+      <img src="{{ url_for('result_image', filename=plot_file) }}" alt="Comparación de imágenes">
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    function showProgress() {
+      const bar = document.getElementById("progressBar");
+      const fill = document.getElementById("progressFill");
+      bar.style.display = "block";
+      fill.style.width = "100%";
+    }
+  </script>
+</body>
+</html>
