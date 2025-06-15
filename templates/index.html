@@ -6,31 +6,39 @@
   <title>Mejora de Imagen con Splines</title>
   <link rel="stylesheet" href="/static/style.css">
   <style>
-    .progress-bar {
-      width: 100%;
-      height: 10px;
-      background-color: #ddd;
-      margin-top: 10px;
+    .spinner-container {
       display: none;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
     }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background-color: #4caf50;
-      transition: width 2s ease-in-out;
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Sube una imagen para mejorar el contraste</h1>
-    <form method="post" enctype="multipart/form-data" onsubmit="showProgress()">
+    <form method="post" enctype="multipart/form-data" onsubmit="showSpinner()">
       <input type="file" name="image" accept="image/*" required>
       <button type="submit">Procesar</button>
-      <div class="progress-bar" id="progressBar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
     </form>
+
+    <!-- SPINNER -->
+    <div class="spinner-container" id="spinner">
+      <div class="spinner"></div>
+      <p style="margin-left:10px;">Procesando imagen...</p>
+    </div>
 
     {% if plot_file %}
     <script>
@@ -45,11 +53,8 @@
   </div>
 
   <script>
-    function showProgress() {
-      const bar = document.getElementById("progressBar");
-      const fill = document.getElementById("progressFill");
-      bar.style.display = "block";
-      fill.style.width = "100%";
+    function showSpinner() {
+      document.getElementById("spinner").style.display = "flex";
     }
   </script>
 </body>
